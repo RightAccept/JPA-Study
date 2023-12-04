@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />  <!-- header include -->
+<style>
+  .fieldError {
+    border-color: #bd2130;
+  }
+</style>
+<body>
+<div class="container">
+  <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+  <form role="form" action="/members/new" th:object="${memberForm}" method="post">  <!-- th:object : form 안에서 해당 객체를 계속 쓰겠다 -->
+    <div class="form-group">
+      <label th:for="name">이름</label>
+      <input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요" th:class="${#fields.hasErrors('name')}? 'form-control fieldError' : 'form-control'">
+      <!-- * 표시가 있으면 object를 참조하는 것. object에 있는 name의 setter를 사용. name 속성 대신이라고 생각하면 될듯 -->
+      <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect date</p>
+      <!-- 아까 BindingResult에서 name이라는 곳에 error가 있으면 input의 class를 fieldError로 변경하고, p 태그가 생성되고, name과 관련된 에러 메세지를 출력한다 -->
+    </div>
+    <div class="form-group">
+      <label th:for="city">도시</label>
+      <input type="text" th:field="*{city}" class="form-control" placeholder="도시를 입력하세요">
+      <!-- th:field : object의 city를 참조하면서, 랜더링 될 때 id와 name을 field의 값으로 생성해준다(id="city" name="city") -->
+    </div>
+    <div class="form-group">
+      <label th:for="street">거리</label>
+      <input type="text" th:field="*{street}" class="form-control" placeholder="거리를 입력하세요">
+    </div>
+    <div class="form-group">
+      <label th:for="zipcode">우편번호</label>
+      <input type="text" th:field="*{zipcode}" class="form-control" placeholder="우편번호를 입력하세요">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  <br/>
+  <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>
